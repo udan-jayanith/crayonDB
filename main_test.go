@@ -90,13 +90,13 @@ func TestGetDocAsBytes(t *testing.T) {
 
 	_, err = crayondb.GetDocAsBytes("Users", "Udan")
 	if err != nil {
-		t.Log("Unexpected behavior.")
+		t.Error("Unexpected behavior.")
 		return
 	}
 
 	m, err := crayondb.GetDocAsBytes("Users", "uhdan")
 	if err == nil {
-		t.Log(err)
-		t.Log(m)
+		t.Error(err)
+		t.Error(m)
 	}
 }
