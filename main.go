@@ -58,12 +58,11 @@ func (cdb *CrayonDB) UpdatePath(path string) error {
 // If path doesn't exists UpdateDoc() returns err = PathDoesNotExists
 // If doc doesn't exists UpdateDoc() will create the doc with given struct.
 func (cdb *CrayonDB) UpdateDoc(path, doc string, docStruct any) error {
-	folderPath := filepath.Join(cdb.DatabasePath, path)
-	if !cdb.IsPathExists(folderPath) {
+	if !cdb.IsPathExists(path) {
 		return fmt.Errorf(PathDoesNotExists)
 	}
 
-	docPath := filepath.Join(folderPath, doc+".json")
+	docPath := filepath.Join(cdb.DatabasePath, path, doc+".json")
 	jsonByte, err := json.Marshal(docStruct)
 	if err != nil {
 		return err
