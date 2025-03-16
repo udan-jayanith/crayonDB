@@ -67,21 +67,29 @@ func (cdb *CrayonDB) UpdateDoc(path, doc string, docStruct any) error {
 	if err != nil {
 		return err
 	}
-	err  = os.WriteFile(docPath, jsonByte, os.ModePerm)
+	err = os.WriteFile(docPath, jsonByte, os.ModePerm)
 	return err
 }
 
 // GetDocAsJson() returns doc as it is saved.
-func (cdb *CrayonDB) GetDocAsJson(path, doc string) {}
+func (cdb *CrayonDB) GetDocAsBytes(path, doc string) ([]byte, error) {
+	docPath := filepath.Join(cdb.DatabasePath, path, doc+".json")
+	DocBytes, err := os.ReadFile(docPath)
+	if err != nil {
+		return DocBytes, err
+	}
 
-//WriteDocAsJson() writes to a writer.
+	return DocBytes, err
+}
+
+// WriteDocAsJson() writes to a writer.
 func (cdb *CrayonDB) WriteDocAsJson() {}
 
 // GetDoc() takes a address of a struct and change it with the doc.
 func (cdb *CrayonDB) GetDoc(path, doc string, _ any) {}
 
 // GetFieldFromDoc() returns the field value from given path and doc.
-func GetFieldFromDoc(){}
+func GetFieldFromDoc() {}
 
 // GetItemsInPath() returns a map of folders and docs in the path as key as the name of the folder or doc and value as item type.
 func (cdb *CrayonDB) GetItemsInPath(path string) {}

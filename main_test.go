@@ -80,3 +80,23 @@ func TestUpdateDoc(t *testing.T) {
 		t.Log("Unexpected behavior.")
 	}
 }
+
+func TestGetDocAsBytes(t *testing.T) {
+	crayondb, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
+	if err != nil {
+		t.Log(err)
+		return
+	}
+
+	_, err = crayondb.GetDocAsBytes("Users", "Udan")
+	if err != nil {
+		t.Log("Unexpected behavior.")
+		return
+	}
+
+	m, err := crayondb.GetDocAsBytes("Users", "uhdan")
+	if err == nil {
+		t.Log(err)
+		t.Log(m)
+	}
+}
