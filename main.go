@@ -4,6 +4,8 @@
 package crayonDB
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -53,10 +55,24 @@ func (cdb *CrayonDB) UpdatePath(path string) error {
 }
 
 // UpdateDoc() replaces the doc with the given struct.
-// If it doesn't exists UpdateDoc() will create the doc with given struct.
-func (cdb *CrayonDB) UpdateDoc(path, doc string, _ any) {}
+// If path doesn't exists UpdateDoc() returns err = PathDoesNotExists
+// If doc doesn't exists UpdateDoc() will create the doc with given struct.
+func (cdb *CrayonDB) UpdateDoc(path, doc string, docStruct any) error {
+	folderPath := filepath.Join(cdb.DatabasePath, path)
+	if !cdb.IsPathExists(folderPath) {
+		return fmt.Errorf(PathDoesNotExists)
+	}
 
-// GetDocAsJson() returns doc as it is saved it memory.
+	docPath := filepath.Join(folderPath, doc+".json")
+	jsonByte, err := json.Marshal(docStruct)
+	if err != nil {
+		return err
+	}
+	err  = os.WriteFile(docPath, jsonByte, os.ModePerm)
+	return err
+}
+
+// GetDocAsJson() returns doc as it is saved.
 func (cdb *CrayonDB) GetDocAsJson(path, doc string) {}
 
 //WriteDocAsJson() writes to a writer.

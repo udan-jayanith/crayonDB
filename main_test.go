@@ -6,7 +6,7 @@ import (
 )
 
 func TestOpen(t *testing.T) {
-	_, err := crayonDB.Open("", "Database")
+	_, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
 	if err != nil {
 		t.Log(err)
 		return
@@ -14,7 +14,7 @@ func TestOpen(t *testing.T) {
 }
 
 func TestUpdatePath(t *testing.T) {
-	crayondb, err := crayonDB.Open("", "Database")
+	crayondb, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
 	if err != nil {
 		t.Log(err)
 		return
@@ -27,7 +27,7 @@ func TestUpdatePath(t *testing.T) {
 }
 
 func TestIsPathExists(t *testing.T) {
-	crayondb, err := crayonDB.Open("", "Database")
+	crayondb, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
 	if err != nil {
 		t.Log(err)
 		return
@@ -39,7 +39,7 @@ func TestIsPathExists(t *testing.T) {
 }
 
 func TestIsDocExists(t *testing.T) {
-	crayondb, err := crayonDB.Open("", "Database")
+	crayondb, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
 	if err != nil {
 		t.Log(err)
 		return
@@ -47,5 +47,36 @@ func TestIsDocExists(t *testing.T) {
 
 	if crayondb.IsDocExists("Users", "userDoc") {
 		t.Log("Unexpected value")
+	}
+}
+
+type User struct {
+	FirstName string
+	LastName  string
+	Age       int
+}
+
+func TestUpdateDoc(t *testing.T) {
+	user := User{
+		FirstName: "Udan",
+		LastName:  "Jayakody",
+		Age:       16,
+	}
+
+	crayondb, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
+	if err != nil {
+		t.Log(err)
+		return
+	}
+
+	err = crayondb.UpdateDoc("Users", user.FirstName, &user)
+	if err != nil {
+		t.Log(err)
+		return
+	}
+
+	err = crayondb.UpdateDoc("user", user.FirstName, &user)
+	if err == nil {
+		t.Log("Unexpected behavior.")
 	}
 }
