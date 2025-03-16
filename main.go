@@ -70,3 +70,5 @@ func GetFieldFromDoc(){}
 
 // GetItemsInPath() returns a map of folders and docs in the path as key as the name of the folder or doc and value as item type.
 func (cdb *CrayonDB) GetItemsInPath(path string) {}
+
+//Delete Options
