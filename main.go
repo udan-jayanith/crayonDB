@@ -16,7 +16,7 @@ type CrayonDB struct {
 	DatabasePath string
 }
 
-// OpenedDB gives a map of Opened CrayonDB where key is path. And value is CrayonDB struct.
+// OpenedDB gives a map of Opened CrayonDB where keys are path. And values are a pointer to a CrayonDB struct.
 var OpenedDB map[string]*CrayonDB
 
 // Open() open's the database. If it doesn't exists Open will create a database and return CrayonDB, nil.
@@ -49,10 +49,6 @@ func (cdb *CrayonDB) IsDocExists(path, doc string) bool {
 	info, err := os.Stat(folderPath)
 
 	return err == nil && !info.IsDir()
-}
-
-func IsDocNameValid(doc string) {
-
 }
 
 // UpdatePath() creates a directory named path, along with any necessary parents, and returns nil, or else returns an error.
