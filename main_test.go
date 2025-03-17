@@ -6,11 +6,12 @@ import (
 )
 
 func TestOpen(t *testing.T) {
-	_, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
+	db, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
 	if err != nil {
-		t.Log(err)
+		t.Error(err)
 		return
 	}
+	t.Log(db.IsPathExists(""))
 }
 
 func TestUpdatePath(t *testing.T) {

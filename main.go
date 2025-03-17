@@ -6,6 +6,7 @@ package crayonDB
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 )
@@ -15,6 +16,9 @@ type CrayonDB struct {
 	DatabasePath string
 }
 
+// OpenedDB gives a map of Opened CrayonDB where key is path. And value is CrayonDB struct.
+var OpenedDB map[string]*CrayonDB
+
 // Open() open's the database. If it doesn't exists Open will create a database and return CrayonDB, nil.
 func Open(path, name string) (CrayonDB, error) {
 	dbPath := filepath.Join(path, name)
@@ -22,11 +26,13 @@ func Open(path, name string) (CrayonDB, error) {
 		DatabasePath: dbPath,
 	}
 
-	err := os.MkdirAll(dbPath, os.ModePerm)
-	if err != nil {
-		crayonDB.DatabasePath = ""
+	if OpenedDB == nil {
+		OpenedDB = make(map[string]*CrayonDB)
 	}
-	return crayonDB, err
+	OpenedDB[path] = &crayonDB
+
+	err := os.MkdirAll(dbPath, os.ModePerm)
+	return *(OpenedDB[path]), err
 }
 
 // IsPathExists() returns true if the path exists. else false.
@@ -37,12 +43,16 @@ func (cdb *CrayonDB) IsPathExists(path string) bool {
 	return (err == nil && info.IsDir())
 }
 
-// IsDocExists() returns true i
+// IsDocExists() returns true if the doc exists. else false.
 func (cdb *CrayonDB) IsDocExists(path, doc string) bool {
 	folderPath := filepath.Join(cdb.DatabasePath, path, doc+".json")
 	info, err := os.Stat(folderPath)
 
 	return err == nil && !info.IsDir()
+}
+
+func IsDocNameValid(doc string) {
+
 }
 
 // UpdatePath() creates a directory named path, along with any necessary parents, and returns nil, or else returns an error.
@@ -83,7 +93,9 @@ func (cdb *CrayonDB) GetDocAsBytes(path, doc string) ([]byte, error) {
 }
 
 // WriteDocAsJson() writes to a writer.
-func (cdb *CrayonDB) WriteDocAsJson() {}
+func (cdb *CrayonDB) WriteDocAsJson(w io.Writer, path, doc string) {
+	//json.NewEncoder(w)
+}
 
 // GetDoc() takes a address of a struct and change it with the doc.
 func (cdb *CrayonDB) GetDoc(path, doc string, _ any) {}
