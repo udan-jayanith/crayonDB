@@ -90,14 +90,14 @@ func (cdb *CrayonDB) GetDocAsBytes(path, doc string) ([]byte, error) {
 
 // WriteDocAsJson() writes to a writer.
 func (cdb *CrayonDB) WriteDocAsJson(w io.Writer, path, doc string) {
-	//json.NewEncoder(w)
+	//json.NewEncoder(w).Encode()
 }
 
 // GetDoc() takes a address of a struct and change it with the doc.
 func (cdb *CrayonDB) GetDoc(path, doc string, _ any) {}
 
 // GetFieldFromDoc() returns the field value from given path and doc.
-func GetFieldFromDoc() {}
+func (cdb *CrayonDB) GetFieldFromDoc() {}
 
 // GetItemsInPath() returns a map of folders and docs in the path as key as the name of the folder or doc and value as item type.
 func (cdb *CrayonDB) GetItemsInPath(path string) {}

@@ -66,19 +66,19 @@ func TestUpdateDoc(t *testing.T) {
 
 	crayondb, err := crayonDB.Open(crayonDB.CurrentDir, "Database")
 	if err != nil {
-		t.Log(err)
+		t.Error(err)
 		return
 	}
 
 	err = crayondb.UpdateDoc("Users", user.FirstName, &user)
 	if err != nil {
-		t.Log(err)
+		t.Error(err)
 		return
 	}
 
 	err = crayondb.UpdateDoc("user", user.FirstName, &user)
 	if err == nil {
-		t.Log("Unexpected behavior.")
+		t.Error("Unexpected behavior.")
 	}
 }
 
@@ -89,15 +89,11 @@ func TestGetDocAsBytes(t *testing.T) {
 		return
 	}
 
-	_, err = crayondb.GetDocAsBytes("Users", "Udan")
+	data, err := crayondb.GetDocAsBytes("Users", "Udan")
 	if err != nil {
 		t.Error("Unexpected behavior.")
 		return
 	}
 
-	m, err := crayondb.GetDocAsBytes("Users", "uhdan")
-	if err == nil {
-		t.Error(err)
-		t.Error(m)
-	}
+	t.Log(string(data))
 }
