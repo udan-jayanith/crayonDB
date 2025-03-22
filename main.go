@@ -20,7 +20,7 @@ type CrayonDB struct {
 var OpenedDB map[string]*CrayonDB
 
 // Open() open's the database. If it doesn't exists Open will create a database and return CrayonDB, nil.
-func Open(path, name string) (CrayonDB, error) {
+func Open(path, name string) (*CrayonDB, error) {
 	dbPath := filepath.Join(path, name)
 	crayonDB := CrayonDB{
 		DatabasePath: dbPath,
@@ -32,7 +32,7 @@ func Open(path, name string) (CrayonDB, error) {
 	OpenedDB[path] = &crayonDB
 
 	err := os.MkdirAll(dbPath, os.ModePerm)
-	return *(OpenedDB[path]), err
+	return OpenedDB[path], err
 }
 
 // IsPathExists() returns true if the path exists. else false.

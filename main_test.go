@@ -11,7 +11,7 @@ func TestOpen(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	t.Log(db.IsPathExists(""))
+	t.Log(db.IsPathExists(crayonDB.CurrentDir))
 }
 
 func TestUpdatePath(t *testing.T) {
